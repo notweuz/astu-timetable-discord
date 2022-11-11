@@ -12,7 +12,7 @@ module.exports = class extends Client {
         this.commands = new Collection();
         this.events = new Collection();
         this.handledCommands = 0;
-        this.color = '#bb74fc';
+        this.color = '#5865f2';
         this.constants = require('../misc/constants.json');
         this.token = process.env.TOKEN;
     }

@@ -78,32 +78,35 @@ class Stats extends BaseCommand {
             list = '';
             let day = 0;
             let weekFor = week;
+            let noDays = 0;
+
+            const daysInWeek = Object.keys(weeks[weekFor?.toString()]).length;
 
             for (let i = 0; i < 7; i++) {
-
-                const lesson = weeks[weekFor?.toString()][day?.toString()][(i - 1).toString()] ?? '';
-                const daysNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-                const types = { 'practice': 'Практика', 'lecture': 'Лекция' };
-
-                console.log('ARBUZ ' + i);
-
-                if (i === 0) {
-                    list += `\n> **${daysNames[day]}**\n\n`;
-                    console.log('DAY ' + i);
-                } else {
-                    list += `${lesson.name ? `**${i}.**` : ''} ${lesson.name ? lesson.name : ''} ${types[lesson.type] ? '(' + types[lesson.type] + ') — ' : ''}${lesson.teacher ? lesson.teacher + ' — ' : ''}${lesson.place ? lesson.place : ''}${lesson.name ? '\n' : ''}`;
-                    console.log('LESSON ' + i);
+                if (weeks[weekFor?.toString()][day?.toString()] === undefined) {
+                    day++;
+                    noDays++;
                 }
 
-                if (i >= 5) {
+                const lesson = weeks[weekFor?.toString()][day?.toString()][(i - 1)?.toString()] ?? '';
+                const daysNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+                const types = { 'practice': 'Практика', 'lecture': 'Лекция', 'laboratory': 'Лабораторная' };
+
+                if (i <= 0) {
+                    list += `\n> **${daysNames[day]}**\n\n`;
+                } else {
+                    list += `${lesson.name ? `**${i}.**` : ''} ${lesson.name ? lesson.name : ''} ${types[lesson.type] ? '(' + types[lesson.type] + ') — ' : ''}${lesson.teacher ? lesson.teacher + ' — ' : ''}${lesson.place ? lesson.place : ''}${lesson.name ? '\n' : ''}`;
+                }
+
+                if (i >= 6) {
                     day++;
                     i = -1;
                 }
-                if (day >= 6) {
+                if (day >= 6 || day >= daysInWeek + noDays) {
                     weekFor++;
                 }
 
-                if (weekFor >= week+1) break;
+                if (weekFor >= week + 1) break;
             }
         }
 
@@ -130,7 +133,7 @@ class Stats extends BaseCommand {
         generateList(1);
 
         const embed = new MessageEmbed()
-            .setTitle(`Расписание группы ${group} - ${week} неделя`)
+            .setTitle(`Расписание группы ${group} - 1 неделя`)
             .setColor(client.color)
             .setDescription(list.toString());
 
