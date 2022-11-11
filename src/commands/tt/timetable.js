@@ -73,30 +73,38 @@ class Stats extends BaseCommand {
         }
 
         let list = '';
-        let day = 0;
-        let weekFor = 1;
 
-        for (let i = 0; i < 7; i++) {
+        function generateList(week) {
+            list = '';
+            let day = 0;
+            let weekFor = week;
 
-            const lesson = weeks[weekFor?.toString()][day?.toString()][(i-1).toString()] ?? '';
-            const daysNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-            const types = { 'practice': 'Практика', 'lecture': 'Лекция' };
+            for (let i = 0; i < 7; i++) {
 
-            if (i === 0) {
-                list += `\n> **${daysNames[day]}**\n\n`;
-            } else {
-                list += `${lesson.name ? `**${i}.**` : ''} ${lesson.name ? lesson.name : ''} ${types[lesson.type] ? '(' + types[lesson.type] + ') — ' : ''}${lesson.teacher ? lesson.teacher + ' — ' : ''}${lesson.place ? lesson.place : ''}${lesson.name ? '\n' : ''}`;
+                const lesson = weeks[weekFor?.toString()][day?.toString()][(i - 1).toString()] ?? '';
+                const daysNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+                const types = { 'practice': 'Практика', 'lecture': 'Лекция' };
+
+                console.log('ARBUZ ' + i);
+
+                if (i === 0) {
+                    list += `\n> **${daysNames[day]}**\n\n`;
+                    console.log('DAY ' + i);
+                } else {
+                    list += `${lesson.name ? `**${i}.**` : ''} ${lesson.name ? lesson.name : ''} ${types[lesson.type] ? '(' + types[lesson.type] + ') — ' : ''}${lesson.teacher ? lesson.teacher + ' — ' : ''}${lesson.place ? lesson.place : ''}${lesson.name ? '\n' : ''}`;
+                    console.log('LESSON ' + i);
+                }
+
+                if (i >= 5) {
+                    day++;
+                    i = -1;
+                }
+                if (day >= 6) {
+                    weekFor++;
+                }
+
+                if (weekFor >= week+1) break;
             }
-
-            if (i >= 5) {
-                day++;
-                i = -1;
-            }
-            if (day >= 6) {
-                weekFor++;
-            }
-
-            if (weekFor >= 2) break;
         }
 
         const row = new MessageActionRow()
@@ -118,6 +126,9 @@ class Stats extends BaseCommand {
                     ]),
             );
 
+
+        generateList(1);
+
         const embed = new MessageEmbed()
             .setTitle(`Расписание группы ${group} - ${week} неделя`)
             .setColor(client.color)
@@ -125,43 +136,19 @@ class Stats extends BaseCommand {
 
         await interaction.reply({ embeds: [embed], components: [row] });
 
-        const message = await interaction.fetchReply()
+        const message = await interaction.fetchReply();
 
         const filter = i => i.user.id === interaction.user.id && i.message.id === message.id;
 
         const collector = interaction.channel.createMessageComponentCollector({ filter, time: 1000 * 60 });
 
         collector.on('collect', async i => {
-            let newValue = i.values[0];
-            list = '';
-            day = 0;
-            weekFor = Number(newValue);
-            for (let i = 0; i < 7; i++) {
-
-                const lesson = weeks[weekFor?.toString()][day?.toString()][(i-1).toString()] ?? '';
-                const daysNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-                const types = { 'practice': 'Практика', 'lecture': 'Лекция' };
-
-                if (i === 0) {
-                    list += `\n> **${daysNames[day]}**\n\n`;
-                } else {
-                    list += `${lesson.name ? `**${i}.**` : ''} ${lesson.name ? lesson.name : ''} ${types[lesson.type] ? '(' + types[lesson.type] + ') — ' : ''}${lesson.teacher ? lesson.teacher + ' — ' : ''}${lesson.place ? lesson.place : ''}${lesson.name ? '\n' : ''}`;
-                }
-
-                if (i >= 5) {
-                    day++;
-                    i = -1;
-                }
-                if (day >= 6) {
-                    weekFor++;
-                }
-
-                if (weekFor >= 2) break;
-            }
+            const value = i.values[0];
+            generateList(Number(value));
             await i.update({
-                embeds: [embed.setDescription(list.toString()).setTitle(`Расписание группы ${group} - ${newValue} неделя`)],
-            })
-        })
+                embeds: [embed.setDescription(list.toString()).setTitle(`Расписание группы ${group} - ${value} неделя`)],
+            });
+        });
         //interaction.reply();
     }
 }
