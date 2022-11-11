@@ -33,61 +33,60 @@ class Stats extends BaseCommand {
             content: `Не могу найти информацию о данной группе. Возможно ты допустил ошибку.`, ephemeral: true
         });
 
-        let weeks = {
-            "1": {},
-            "2": {}
-        }
+        let weeks = {}
 
         if (statusCode !== 404 && statusCode !== 400) body = await body.json()
         let lessons = body['lessons']
 
-        function getWeekData(day) {
-            if (day == 6 || day == 7 || day == 8 || day == 9 || day == 10 || day == 11) {
-                return 1
-            } else {
-                return 0
-            }
-        }
+        for (let i = 0; i < lessons.length; i++) {
+            let lesson = lessons[i]
+            let day = lesson['dayId']
 
-        /*
-        let lessonsDaysSorted = [];
-        for (let lesson in lessons) {
-            lessonsDaysSorted.push([lesson, lessons[lesson]]);
-        }
-        lessonsDaysSorted.sort(function(a, b) {
-            return a[1]['dayId'] - b[1]['dayId'];
-        });
-        */
+            let name = lesson['entries'][0]['discipline'] ?? 'Отсутствует'
+            let type = lesson['entries'][0]['type']
+            let lessonOrderId = lesson['lessonOrderId']
+            let teacher = lesson['entries'][0]['teacher']
+            let place = lesson['entries'][0]['audience']
 
-        for (const lesson in lessons) {
-            if (getWeekData(lessons[lesson]['dayId']) == 0) {
-                weeks["1"][lessons[lesson]['dayId']] += lessons[lesson]['entries'][0]['discipline'].replace('undefined', '')
-            } else {
-                weeks["2"][lessons[lesson]['dayId']] += lessons[lesson]['entries'][0]['discipline'].replace('undefined', '')
+            if (weeks[week] === undefined) weeks[week] = {}
+            if (weeks[week][day] === undefined) weeks[week][day] = {}
+            if (weeks[week][day][lessonOrderId] === undefined) weeks[week][day][lessonOrderId] = {name: '', type: '', teacher: '', place: ''}
+
+            weeks[week][day][lessonOrderId] = {
+                name: name,
+                type: type,
+                teacher: teacher,
+                place: place
             }
         }
 
         console.log(weeks)
 
-        //console.log(lessonsDaysSorted)
 
-        /*
         const embed = new MessageEmbed()
-            .setTitle('Расписание ')
-            .setDescription(`
-Сервера: **${client.guilds.cache.size}**
-Пользователи: **${client.users.cache.size}**
-Каналы: **${client.channels.cache.size}**
-Кол-во комманд: **${client.handledCommands++}**
-
-Запущен **<t:${~~(client.readyAt / 1000)}:R>**
-Пинг вебсокета: **${client.ws.ping}ms**
-ОЗУ: **${~~(process.memoryUsage().heapUsed / 1024 ** 2)}MB :: ${~~(process.memoryUsage().rss / 1024 ** 2)}MB**
-            `)
+            .setTitle(`Расписание группы ${group}`)
             .setColor(client.color)
+            .setDescription(`
+                Понедельник
+                1. ${weeks[week.toString()][0][0]?.name ?? 'Отсутствует'} (${weeks[week.toString()][0][0]?.type ?? ''}) - ${weeks[week.toString()][0][0]?.teacher ?? ''} - ${weeks[week.toString()][0][0]?.place ?? ''}
+                2. ${weeks[week.toString()][0][1]?.name ?? 'Отсутствует'} (${weeks[week.toString()][0][1]?.type ?? ''}) - ${weeks[week.toString()][0][1]?.teacher ?? ''} - ${weeks[week.toString()][0][1]?.place ?? ''}
+                3. ${weeks[week.toString()][0][2]?.name ?? 'Отсутствует'} (${weeks[week.toString()][0][2]?.type ?? ''}) - ${weeks[week.toString()][0][2]?.teacher ?? ''} - ${weeks[week.toString()][0][2]?.place ?? ''}
+                4. ${weeks[week.toString()][0][3]?.name ?? 'Отсутствует'} (${weeks[week.toString()][0][3]?.type ?? ''}) - ${weeks[week.toString()][0][3]?.teacher ?? ''} - ${weeks[week.toString()][0][3]?.place ?? ''}
+                5. ${weeks[week.toString()][0][4]?.name ?? 'Отсутствует'} (${weeks[week.toString()][0][4]?.type ?? ''}) - ${weeks[week.toString()][0][4]?.teacher ?? ''} - ${weeks[week.toString()][0][4]?.place ?? ''}
+                6. ${weeks[week.toString()][0][5]?.name ?? 'Отсутствует'} (${weeks[week.toString()][0][5]?.type ?? ''}) - ${weeks[week.toString()][0][5]?.teacher ?? ''} - ${weeks[week.toString()][0][5]?.place ?? ''}
+                7. ${weeks[week.toString()][0][6]?.name ?? 'Отсутствует'} (${weeks[week.toString()][0][6]?.type ?? ''}) - ${weeks[week.toString()][0][6]?.teacher ?? ''} - ${weeks[week.toString()][0][6]?.place ?? ''}
+                
+                Вторник
+                1. ${weeks[week.toString()][1][0]?.name ?? 'Отсутствует'} (${weeks[week.toString()][1][0]?.type ?? ''}) - ${weeks[week.toString()][1][0]?.teacher ?? ''} - ${weeks[week.toString()][1][0]?.place ?? ''}
+                2. ${weeks[week.toString()][1][1]?.name ?? 'Отсутствует'} (${weeks[week.toString()][1][1]?.type ?? ''}) - ${weeks[week.toString()][1][1]?.teacher ?? ''} - ${weeks[week.toString()][1][1]?.place ?? ''}
+                3. ${weeks[week.toString()][1][2]?.name ?? 'Отсутствует'} (${weeks[week.toString()][1][2]?.type ?? ''}) - ${weeks[week.toString()][1][2]?.teacher ?? ''} - ${weeks[week.toString()][1][2]?.place ?? ''}
+                4. ${weeks[week.toString()][1][3]?.name ?? 'Отсутствует'} (${weeks[week.toString()][1][3]?.type ?? ''}) - ${weeks[week.toString()][1][3]?.teacher ?? ''} - ${weeks[week.toString()][1][3]?.place ?? ''}
+                5. ${weeks[week.toString()][1][4]?.name ?? 'Отсутствует'} (${weeks[week.toString()][1][4]?.type ?? ''}) - ${weeks[week.toString()][1][4]?.teacher ?? ''} - ${weeks[week.toString()][1][4]?.place ?? ''}
+                6. ${weeks[week.toString()][1][5]?.name ?? 'Отсутствует'} (${weeks[week.toString()][1][5]?.type ?? ''}) - ${weeks[week.toString()][1][5]?.teacher ?? ''} - ${weeks[week.toString()][1][5]?.place ?? ''}
+                7. ${weeks[week.toString()][1][6]?.name ?? 'Отсутствует'} (${weeks[week.toString()][1][6]?.type ?? ''}) - ${weeks[week.toString()][1][6]?.teacher ?? ''} - ${weeks[week.toString()][1][6]?.place ?? ''}
+            `)
 
         interaction.reply({ embeds: [embed] });
-        */
         //interaction.reply();
     }
 }
