@@ -3,5 +3,10 @@
     "main": "#e3c936",
     "error": "#e33636",
     "success": "#53e336"
+  },
+  "emojis": {
+    "laboratory": "<:Laboratory:1040728655904636948>",
+    "practice": "<:Practice:1040728659419471935>",
+    "lecture": "<:Lecture:1040728657590759424>"
   }
 }

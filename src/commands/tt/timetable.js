@@ -72,10 +72,10 @@ class Stats extends BaseCommand {
             };
         }
 
-        let list = '';
+        let list = '<:Laboratory:1040728655904636948> — Лабораторная\n<:Practice:1040728659419471935> — Практика\n<:Lecture:1040728657590759424> — Лекция\n';
 
         function generateList(week) {
-            list = '';
+            list = '<:Laboratory:1040728655904636948> — Лабораторная\n<:Practice:1040728659419471935> — Практика\n<:Lecture:1040728657590759424> — Лекция\n';
             let day = 0;
             let weekFor = week;
             let noDays = 0;
@@ -90,12 +90,16 @@ class Stats extends BaseCommand {
 
                 const lesson = weeks[weekFor?.toString()][day?.toString()][(i - 1)?.toString()] ?? '';
                 const daysNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-                const types = { 'practice': 'Практика', 'lecture': 'Лекция', 'laboratory': 'Лабораторная' };
+                const types = {
+                    "laboratory": "<:Laboratory:1040728655904636948>",
+                    "practice": "<:Practice:1040728659419471935>",
+                    "lecture": "<:Lecture:1040728657590759424>"
+                };
 
                 if (i <= 0) {
                     list += `\n> **${daysNames[day]}**\n\n`;
                 } else {
-                    list += `${lesson.name ? `**${i}.**` : ''} ${lesson.name ? lesson.name : ''} ${types[lesson.type] ? '(' + types[lesson.type] + ') — ' : ''}${lesson.teacher ? lesson.teacher + ' — ' : ''}${lesson.place ? lesson.place : ''}${lesson.name ? '\n' : ''}`;
+                    list += `${lesson.name ? `**${i}.**` : ''} ${lesson.name ? lesson.name : ''} ${types[lesson.type] ? types[lesson.type] + ' — ' : ''}${lesson.teacher ? lesson.teacher + ' — ' : ''}${lesson.place ? lesson.place : ''}${lesson.name ? '\n' : ''}`;
                 }
 
                 if (i >= 6) {
