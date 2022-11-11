@@ -7,7 +7,8 @@ class Ready extends BaseEvent {
 
     async run(client) {
         console.log(client.user.tag + ' ready!');
-        await client.guilds.cache.get('895713087565484073').commands.set(client.commandsArray);
+        //await client.guilds.cache.get('895713087565484073').commands.set(client.commandsArray);
+        await client.application.commands.set(client.commandsArray);
     }
 }
 
