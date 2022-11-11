@@ -99,7 +99,7 @@ class Stats extends BaseCommand {
                 if (i <= 0) {
                     list += `\n> **${daysNames[day]}**\n\n`;
                 } else {
-                    list += `${lesson.name ? `**${i}.**` : ''} ${lesson.name ? lesson.name : ''} ${types[lesson.type] ? types[lesson.type] + ' — ' : ''}${lesson.teacher ? lesson.teacher + ' — ' : ''}${lesson.place ? lesson.place : ''}${lesson.name ? '\n' : ''}`;
+                    list += `${lesson.name ? `**${i}.**` : ''} ${types[lesson.type] ? types[lesson.type] : ''} ${lesson.name ? lesson.name + ' — ' : ''} ${lesson.teacher ? lesson.teacher + ' — ' : ''}${lesson.place ? lesson.place : ''}${lesson.name ? '\n' : ''}`;
                 }
 
                 if (i >= 6) {
