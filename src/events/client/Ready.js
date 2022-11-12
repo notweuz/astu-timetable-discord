@@ -25,13 +25,15 @@ class Ready extends BaseEvent {
 
         let para = '';
 
+        let { body } = await request(`https://apitable.astu.org/meta/weekOverride`);
+
         let list = [(body !== 1 ? 'Первая' : 'Вторая') + ' неделя', para + '-ая пара'];
 
         let index = 0;
 
         client.user.setActivity(`${list[index]}`, { type: 'WATCHING' });
         setInterval(async () => {
-            const { body } = await request(`https://apitable.astu.org/meta/weekOverride`);
+            body = ({body} = await request(`https://apitable.astu.org/meta/weekOverride`));
             date = new Date(new Date().toLocaleString('ru', { timeZone: 'Europe/Astrakhan' }))
             timeRightNow = date.getHours() * 60 + date.getMinutes();
             for (let i = 1; i <= 7; i++) {
