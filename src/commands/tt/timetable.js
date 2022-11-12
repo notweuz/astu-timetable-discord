@@ -78,7 +78,6 @@ class Stats extends BaseCommand {
                 while (weeks[weekFor?.toString()][day?.toString()] === undefined) {
                     day++;
                     noDays++;
-                    console.log(day);
                 }
 
                 const lesson = weeks[weekFor?.toString()][day?.toString()][(i - 1)?.toString()] ?? '';
