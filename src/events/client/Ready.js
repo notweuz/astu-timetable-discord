@@ -33,6 +33,7 @@ class Ready extends BaseEvent {
 
         client.user.setActivity(`${list[index]}`, { type: 'WATCHING' });
         setInterval(() => {
+            timeRightNow = date.getHours() * 60 + date.getMinutes();
             for (let i = 1; i <= 7; i++) {
                 if (timeRightNow >= lessonTimes[i]?.start && timeRightNow <= lessonTimes[i]?.end) {
                     para = i.toString();
