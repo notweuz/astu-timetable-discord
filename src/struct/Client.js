@@ -6,7 +6,7 @@ require('dotenv').config();
 module.exports = class extends Client {
     constructor() {
         super({
-            intents: [Intents.FLAGS.GUILDS]
+            intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES]
         });
         this.commandsArray = [];
         this.commands = new Collection();
@@ -21,9 +21,9 @@ module.exports = class extends Client {
     start() {
         process.on('uncaughtException', console.error);
         LoadEvents(this).catch(console.error);
-        console.log('Loaded ' + this.events.size + ' events!');
+        // console.log('Loaded ' + this.events.size + ' events!');
         LoadCommands(this).catch(console.error);
-        console.log('Loaded ' + this.commands.size + ' commands!');
+        // console.log('Loaded ' + this.commands.size + ' commands!');
         super.login().catch(console.error);
     }
 };

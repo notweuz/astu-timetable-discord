@@ -7,6 +7,10 @@
   "emojis": {
     "laboratory": "<:Laboratory:1040728655904636948>",
     "practice": "<:Practice:1040728659419471935>",
-    "lecture": "<:Lecture:1040728657590759424>"
+    "lecture": "<:Lecture:1040728657590759424>",
+    "authors": {
+      "nelifs": "<:nelifs:1040677105618395198>",
+      "notweuz": "<:notweuz:1040677103898734683>"
+    }
   }
 }
