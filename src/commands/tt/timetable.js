@@ -75,17 +75,18 @@ class Stats extends BaseCommand {
             const daysInWeek = Object.keys(weeks[weekFor?.toString()]).length;
 
             for (let i = 0; i < 7; i++) {
-                if (weeks[weekFor?.toString()][day?.toString()] === undefined) {
+                while (weeks[weekFor?.toString()][day?.toString()] === undefined) {
                     day++;
                     noDays++;
+                    console.log(day);
                 }
 
                 const lesson = weeks[weekFor?.toString()][day?.toString()][(i - 1)?.toString()] ?? '';
                 const daysNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
                 const types = {
-                    "laboratory": "<:Laboratory:1040728655904636948>",
-                    "practice": "<:Practice:1040728659419471935>",
-                    "lecture": "<:Lecture:1040728657590759424>"
+                    'laboratory': '<:Laboratory:1040728655904636948>',
+                    'practice': '<:Practice:1040728659419471935>',
+                    'lecture': '<:Lecture:1040728657590759424>'
                 };
 
                 if (i <= 0) {
