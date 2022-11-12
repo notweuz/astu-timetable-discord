@@ -1,7 +1,6 @@
 const BaseCommand = require('../../struct/BaseCommand.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, version } = require('discord.js');
-const npmModules = require('../../../package.json')['dependencies'];
 
 class Info extends BaseCommand {
     constructor() {
