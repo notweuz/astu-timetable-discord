@@ -12,20 +12,12 @@ class Stats extends BaseCommand {
                 .addStringOption(option => option.setName('группа')
                     .setDescription('Код группы, пример: ДКМО_13/1.')
                     .setMaxLength(30)
-                    .setRequired(true))/*
-                .addStringOption(option => option.setName('неделя')
-                    .setDescription('Первая/Вторая неделя')
-                    .addChoices(
-                        { name: 'Первая', value: '1' },
-                        { name: 'Вторая', value: '2' }
-                    )
-                    .setRequired(true))*/
+                    .setRequired(true))
         });
     }
 
     async run(client, interaction) {
         const group = interaction.options.getString('группа');
-        const week = Number(interaction.options.getString('неделя'));
 
         let { statusCode, body } = await request(`https://apitable.astu.org/search/get?q=${group}&t=group`);
 
