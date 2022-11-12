@@ -34,7 +34,7 @@ class Ready extends BaseEvent {
         client.user.setActivity(`${list[index]}`, { type: 'WATCHING' });
         setInterval(() => {
             for (let i = 1; i <= 7; i++) {
-                if (timeRightNow >= lessonTimes[i].start && timeRightNow <= lessonTimes[i].end) {
+                if (timeRightNow >= lessonTimes[i]?.start && timeRightNow <= lessonTimes[i]?.end) {
                     para = i.toString();
                     list[1] = para + '-ая пара';
                     break;

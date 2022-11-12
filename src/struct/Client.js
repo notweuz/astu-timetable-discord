@@ -9,7 +9,7 @@ module.exports = class extends Client {
             intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES],
             sweepers: {
                 ...Options.DefaultSweeperSettings,
-                users: {
+                members: {
                     interval: 3600,
                     lifetime: 1800,
                 },
