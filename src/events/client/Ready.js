@@ -49,7 +49,7 @@ class Ready extends BaseEvent {
             }
             index++;
             client.user.setActivity(`${list[index]}`, { type: 'WATCHING' });
-        }, 5000);
+        }, 15000);
 
         console.log(client.user.tag + ' ready!');
         //await client.guilds.cache.get('895713087565484073').commands.set(client.commandsArray);
