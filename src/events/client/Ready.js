@@ -10,7 +10,7 @@ class Ready extends BaseEvent {
     async run(client) {
 
         const date = new Date(new Date().toLocaleString('ru', { timeZone: 'Europe/Astrakhan' }));
-        const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+        const days = ['Суббота', 'Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'];
 
         const { body } = await request(`https://apitable.astu.org/meta/weekOverride`);
 
