@@ -38,6 +38,8 @@ class Ready extends BaseEvent {
                     para = i.toString();
                     list[1] = para + '-ая пара';
                     break;
+                } else {
+                    list[1] = 'Нет пары';
                 }
             }
             if (list.length - 1 <= index) {
