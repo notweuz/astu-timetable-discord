@@ -1,4 +1,4 @@
-const { Client, Collection, Intents } = require('discord.js'),
+const { Client, Collection, Intents, Options } = require('discord.js'),
     LoadCommands = require('../loaders/CommandsLoader.js'),
     LoadEvents = require('../loaders/EventsLoader.js');
 require('dotenv').config();
@@ -6,7 +6,14 @@ require('dotenv').config();
 module.exports = class extends Client {
     constructor() {
         super({
-            intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES]
+            intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES],
+            sweepers: {
+                ...Options.DefaultSweeperSettings,
+                users: {
+                    interval: 3600,
+                    lifetime: 1800,
+                },
+            },
         });
         this.commandsArray = [];
         this.commands = new Collection();
@@ -20,6 +27,7 @@ module.exports = class extends Client {
 
     start() {
         process.on('uncaughtException', console.error);
+        process.on('unhandledRejection', console.error);
         LoadEvents(this).catch(console.error);
         // console.log('Loaded ' + this.events.size + ' events!');
         LoadCommands(this).catch(console.error);
