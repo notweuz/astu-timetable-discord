@@ -19,7 +19,7 @@ class Ready extends BaseEvent {
             '7': { 'start': 19 * 60 + 15, 'end': 20 * 60 + 45 }
         }
 
-        const date = new Date(new Date().toLocaleString('ru', { timeZone: 'Europe/Astrakhan' }));
+        let date = new Date(new Date().toLocaleString('ru', { timeZone: 'Europe/Astrakhan' }));
 
         let timeRightNow = date.getHours() * 60 + date.getMinutes();
 
@@ -33,6 +33,7 @@ class Ready extends BaseEvent {
 
         client.user.setActivity(`${list[index]}`, { type: 'WATCHING' });
         setInterval(() => {
+            date = new Date(new Date().toLocaleString('ru', { timeZone: 'Europe/Astrakhan' }))
             timeRightNow = date.getHours() * 60 + date.getMinutes();
             for (let i = 1; i <= 7; i++) {
                 if (timeRightNow >= lessonTimes[i]?.start && timeRightNow <= lessonTimes[i]?.end) {
@@ -48,7 +49,7 @@ class Ready extends BaseEvent {
             }
             index++;
             client.user.setActivity(`${list[index]}`, { type: 'WATCHING' });
-        }, 15000);
+        }, 5000);
 
         console.log(client.user.tag + ' ready!');
         //await client.guilds.cache.get('895713087565484073').commands.set(client.commandsArray);
