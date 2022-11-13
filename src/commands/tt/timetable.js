@@ -129,7 +129,7 @@ class Stats extends BaseCommand {
         generateList(1);
 
         const embed = new MessageEmbed()
-            .setTitle(`Расписание группы ${group} - 1 неделя`)
+            .setTitle(`Расписание группы ${group} — 1-ая неделя`)
             .setColor(client.color)
             .setDescription(list.toString());
 
@@ -145,7 +145,7 @@ class Stats extends BaseCommand {
             const value = i.values[0];
             generateList(Number(value));
             await i.update({
-                embeds: [embed.setDescription(list.toString()).setTitle(`Расписание группы ${group} - ${value} неделя`)],
+                embeds: [embed.setDescription(list.toString()).setTitle(`Расписание группы ${group} — ${value}-ая неделя`)],
             });
         });
         //interaction.reply();
