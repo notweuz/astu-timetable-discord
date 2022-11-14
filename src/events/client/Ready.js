@@ -19,30 +19,28 @@ class Ready extends BaseEvent {
             '7': { 'start': 19 * 60 + 15, 'end': 20 * 60 + 45 }
         }
 
-        let date = new Date(new Date().toLocaleString('ru', { timeZone: 'Europe/Astrakhan' }));
-
-        let timeRightNow = date.getHours() * 60 + date.getMinutes();
 
         let para = '';
 
         let { body } = await request(`https://apitable.astu.org/meta/weekOverride`);
 
-        let list = [(body !== 1 ? 'Первая' : 'Вторая') + ' неделя', para + '-ая пара'];
+        // let list = [(body !== 1 ? 'Первая' : 'Вторая') + ' неделя', para + '-ая пара'];
+        let list = [para + 'Нет пары'];
 
         let index = 0;
 
         client.user.setActivity(`${list[index]}`, { type: 'WATCHING' });
         setInterval(async () => {
-            body = ({body} = await request(`https://apitable.astu.org/meta/weekOverride`));
-            date = new Date(new Date().toLocaleString('ru', { timeZone: 'Europe/Astrakhan' }))
-            timeRightNow = date.getHours() * 60 + date.getMinutes();
+            const date = new Date(new Date().toLocaleString('russian', { timeZone: 'Europe/Astrakhan' }));
+            const timeRightNow = date.getHours() * 60 + date.getMinutes();
+            // body = ({body} = await request(`https://apitable.astu.org/meta/weekOverride`));
             for (let i = 1; i <= 7; i++) {
                 if (timeRightNow >= lessonTimes[i]?.start && timeRightNow <= lessonTimes[i]?.end) {
                     para = i.toString();
-                    list[1] = para + '-ая пара';
+                    list[0] = para + '-ая пара';
                     break;
                 } else {
-                    list[1] = 'Нет пары';
+                    list[0] = 'Нет пары';
                 }
             }
             if (list.length - 1 <= index) {
@@ -50,7 +48,7 @@ class Ready extends BaseEvent {
             }
             index++;
             client.user.setActivity(`${list[index]}`, { type: 'WATCHING' });
-        }, 15000);
+        }, 30000);
 
         console.log(client.user.tag + ' ready!');
         //await client.guilds.cache.get('895713087565484073').commands.set(client.commandsArray);
